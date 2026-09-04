@@ -1,369 +1,237 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&display=swap');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-* {
-    box-sizing: border-box;
-}
+    <title>J.A.R.V.I.S Brain Test</title>
 
-body {
-    margin: 0;
-    min-height: 100vh;
-    background:
-        radial-gradient(circle at 50% 20%, #06252d 0%, #02090c 35%, #000 75%);
-    color: #dffcff;
-    font-family: 'Orbitron', sans-serif;
-}
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-.app {
-    width: 100%;
-    max-width: 900px;
-    min-height: 100vh;
-    margin: auto;
-    padding: 20px;
-}
+        body {
+            background: #000;
+            color: #0ff;
+            font-family: monospace;
+            padding: 20px;
+            margin: 0;
+        }
 
-/* HEADER */
+        h1 {
+            text-align: center;
+            letter-spacing: 4px;
+            margin-bottom: 10px;
+        }
 
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 5px;
-    border-bottom: 1px solid rgba(0, 238, 255, 0.2);
-}
+        #status {
+            color: #f00;
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
 
-.brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            resize: vertical;
+            background: #001a1a;
+            color: #0ff;
+            border: 1px solid #0ff;
+            border-radius: 8px;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 16px;
+            outline: none;
+        }
 
-.logo {
-    width: 48px;
-    height: 48px;
-    border: 2px solid #00eaff;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #00eaff;
-    font-size: 22px;
-    font-weight: 800;
-    box-shadow: 0 0 18px rgba(0, 234, 255, 0.5);
-}
+        textarea:focus {
+            box-shadow: 0 0 10px #0ff;
+        }
 
-.brand h1 {
-    margin: 0;
-    font-size: 18px;
-    letter-spacing: 3px;
-}
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #0ff;
+            color: #000;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
 
-.brand p {
-    margin: 4px 0 0;
-    font-size: 8px;
-    letter-spacing: 2px;
-    color: #65aeb7;
-}
+        button:hover {
+            background: #fff;
+        }
 
-.status {
-    font-size: 9px;
-    color: #00ffcc;
-    letter-spacing: 1px;
-}
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
 
-.status span {
-    display: inline-block;
-    width: 7px;
-    height: 7px;
-    background: #00ffcc;
-    border-radius: 50%;
-    box-shadow: 0 0 10px #00ffcc;
-}
+        #reply {
+            border: 1px solid #0ff;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 15px;
+            min-height: 100px;
+            white-space: pre-wrap;
+            color: #fff;
+            background: #001010;
+            line-height: 1.5;
+        }
 
-/* REACTOR */
+        .label {
+            margin-top: 15px;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+    </style>
+</head>
 
-.reactor-section {
-    text-align: center;
-    padding: 40px 0 30px;
-}
+<body>
 
-.reactor {
-    width: 210px;
-    height: 210px;
-    margin: auto;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+    <h1>J.A.R.V.I.S</h1>
 
-.ring {
-    position: absolute;
-    border: 1px solid #00dfff;
-    border-radius: 50%;
-    box-shadow: 0 0 15px rgba(0, 225, 255, 0.4);
-}
+    <div id="status">BRAIN: NOT CONNECTED</div>
 
-.ring-1 {
-    width: 200px;
-    height: 200px;
-    border-style: dashed;
-    animation: rotate 15s linear infinite;
-}
+    <div class="label">ENTER COMMAND</div>
 
-.ring-2 {
-    width: 165px;
-    height: 165px;
-    animation: rotateReverse 10s linear infinite;
-}
+    <textarea id="prompt" rows="4">Hello J.A.R.V.I.S</textarea>
 
-.ring-3 {
-    width: 130px;
-    height: 130px;
-    border-width: 2px;
-    animation: rotate 7s linear infinite;
-}
+    <button id="sendButton" onclick="ask()">SEND REQUEST</button>
 
-.core {
-    width: 75px;
-    height: 75px;
-    border-radius: 50%;
-    background: radial-gradient(circle, #dfffff 0%, #00eaff 35%, #007b8a 65%, #00252b 100%);
-    box-shadow:
-        0 0 20px #00eaff,
-        0 0 50px rgba(0, 234, 255, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    animation: pulse 2s infinite;
-}
+    <div class="label">J.A.R.V.I.S RESPONSE</div>
 
-.core span {
-    color: #001114;
-    font-size: 30px;
-    font-weight: 800;
-}
+    <div id="reply">Waiting for response...</div>
 
-.reactor-section h2 {
-    margin: 20px 0 5px;
-    color: #00eaff;
-    font-size: 17px;
-    letter-spacing: 3px;
-}
+    <script>
+        /*
+         * IMPORTANT:
+         * Do NOT put your Gemini/OpenRouter API key here.
+         *
+         * This frontend sends the request to your backend.
+         *
+         * Change this URL to your deployed backend URL.
+         */
 
-.reactor-section p {
-    margin: 0;
-    color: #60949b;
-    font-size: 9px;
-}
+        const BACKEND_URL = "https://YOUR-BACKEND.onrender.com";
 
-/* SYSTEMS */
+        async function ask() {
 
-.systems {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin-bottom: 25px;
-}
+            const prompt = document.getElementById("prompt").value.trim();
+            const reply = document.getElementById("reply");
+            const status = document.getElementById("status");
+            const button = document.getElementById("sendButton");
 
-.system-card {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 15px;
-    background: rgba(0, 30, 36, 0.55);
-    border: 1px solid rgba(0, 234, 255, 0.18);
-    border-radius: 10px;
-}
+            if (!prompt) {
+                reply.innerText = "Please enter a message.";
+                return;
+            }
 
-.system-card > span {
-    font-size: 20px;
-}
+            reply.innerText = "PROCESSING...";
+            status.innerText = "CONNECTING...";
+            status.style.color = "#0ff";
+            button.disabled = true;
+            button.innerText = "PROCESSING...";
 
-.system-card strong {
-    display: block;
-    font-size: 9px;
-    letter-spacing: 1px;
-}
+            try {
 
-.system-card small {
-    display: block;
-    margin-top: 5px;
-    color: #00ffcc;
-    font-size: 7px;
-}
+                const res = await fetch(
+                    BACKEND_URL + "/chat",
+                    {
+                        method: "POST",
 
-/* CHAT */
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
 
-.chat-section {
-    border: 1px solid rgba(0, 234, 255, 0.2);
-    border-radius: 14px;
-    padding: 15px;
-    background: rgba(0, 15, 19, 0.75);
-    box-shadow: 0 0 30px rgba(0, 234, 255, 0.05);
-}
+                        body: JSON.stringify({
+                            message: prompt
+                        })
+                    }
+                );
 
-.section-title {
-    display: flex;
-    justify-content: space-between;
-    font-size: 9px;
-    letter-spacing: 2px;
-    color: #00eaff;
-    padding-bottom: 12px;
-    border-bottom: 1px solid rgba(0, 234, 255, 0.12);
-}
+                if (!res.ok) {
+                    throw new Error(
+                        "Backend returned HTTP " + res.status
+                    );
+                }
 
-.live {
-    color: #00ffcc;
-}
+                const data = await res.json();
 
-#chat {
-    height: 230px;
-    overflow-y: auto;
-    padding: 12px 2px;
-}
+                console.log("Backend response:", data);
 
-.msg {
-    padding: 11px 13px;
-    margin-bottom: 9px;
-    border-radius: 8px;
-    font-size: 10px;
-    line-height: 1.5;
-}
+                /*
+                 * Supports several common backend response formats.
+                 */
 
-.msg.ai {
-    background: rgba(0, 234, 255, 0.07);
-    border-left: 2px solid #00eaff;
-}
+                let responseText =
+                    data.reply ||
+                    data.response ||
+                    data.message ||
+                    data.text;
 
-.msg.user {
-    background: rgba(0, 255, 204, 0.06);
-    border-right: 2px solid #00ffcc;
-    text-align: right;
-}
+                if (!responseText && data.candidates) {
+                    responseText =
+                        data.candidates[0]?.content?.parts?.[0]?.text;
+                }
 
-.input-area {
-    display: flex;
-    gap: 8px;
-    margin-top: 8px;
-}
+                if (responseText) {
 
-#msg {
-    flex: 1;
-    min-width: 0;
-    padding: 13px;
-    border-radius: 8px;
-    border: 1px solid rgba(0, 234, 255, 0.25);
-    background: #020b0e;
-    color: white;
-    outline: none;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 9px;
-}
+                    reply.innerText = responseText;
 
-#msg:focus {
-    border-color: #00eaff;
-    box-shadow: 0 0 12px rgba(0, 234, 255, 0.15);
-}
+                    status.innerText = "BRAIN ONLINE";
+                    status.style.color = "#0f0";
 
-#send {
-    width: 48px;
-    border: 1px solid #00eaff;
-    border-radius: 8px;
-    background: rgba(0, 234, 255, 0.1);
-    color: #00eaff;
-    font-size: 18px;
-    cursor: pointer;
-}
+                } else {
 
-#send:hover {
-    background: #00eaff;
-    color: #001114;
-}
+                    reply.innerText =
+                        "ERROR: Backend returned an unexpected response.\n\n" +
+                        JSON.stringify(data, null, 2);
 
-/* FOOTER */
+                    status.innerText = "BRAIN ERROR";
+                    status.style.color = "#f00";
+                }
 
-footer {
-    text-align: center;
-    padding: 25px 0 10px;
-    color: #315b60;
-    font-size: 7px;
-    letter-spacing: 2px;
-}
+            } catch (error) {
 
-/* ANIMATIONS */
+                console.error("J.A.R.V.I.S Error:", error);
 
-@keyframes rotate {
-    from {
-        transform: rotate(0deg);
-    }
+                reply.innerText =
+                    "CONNECTION ERROR\n\n" +
+                    error.message +
+                    "\n\nCheck that your backend is online.";
 
-    to {
-        transform: rotate(360deg);
-    }
-}
+                status.innerText = "BRAIN OFFLINE";
+                status.style.color = "#f00";
 
-@keyframes rotateReverse {
-    from {
-        transform: rotate(360deg);
-    }
+            } finally {
 
-    to {
-        transform: rotate(0deg);
-    }
-}
+                button.disabled = false;
+                button.innerText = "SEND REQUEST";
+            }
+        }
 
-@keyframes pulse {
-    0%, 100% {
-        transform: scale(1);
-    }
 
-    50% {
-        transform: scale(1.08);
-    }
-}
+        /*
+         * Press Ctrl + Enter to send.
+         */
 
-/* MOBILE */
+        document.getElementById("prompt").addEventListener(
+            "keydown",
+            function(event) {
 
-@media (max-width: 600px) {
+                if (event.ctrlKey && event.key === "Enter") {
+                    ask();
+                }
 
-    .app {
-        padding: 12px;
-    }
+            }
+        );
+    </script>
 
-    .systems {
-        grid-template-columns: 1fr;
-    }
-
-    .system-card {
-        padding: 12px;
-    }
-
-    .reactor {
-        width: 180px;
-        height: 180px;
-    }
-
-    .ring-1 {
-        width: 170px;
-        height: 170px;
-    }
-
-    .ring-2 {
-        width: 140px;
-        height: 140px;
-    }
-
-    .ring-3 {
-        width: 110px;
-        height: 110px;
-    }
-
-    .core {
-        width: 65px;
-        height: 65px;
-    }
-
-    #chat {
-        height: 200px;
-    }
-}
+</body>
+</html>
