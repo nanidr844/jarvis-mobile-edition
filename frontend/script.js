@@ -61,7 +61,7 @@ async function askGemini(p) {
 // ===== 4. SPEECH RECOGNITION (వినడం) =====
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
 const rec = new SR();
-rec.lang = "en-US"; // Telugu కి 'te-IN'
+rec.lang = "te-IN"; // Telugu కి 'te-IN'
 rec.onresult = (e) => {
   const t = e.results[0][0].transcript;
   add("YOU: " + t, "user");
